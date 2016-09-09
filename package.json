@@ -1,0 +1,40 @@
+{
+  "name": "arango-up",
+  "version": "0.1.0",
+  "description": "This component allow to migrate an arango database (schema / data) from a version to the most recent version",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "mount-db": "npm run unmount-db & docker run --name arango-up --rm -e ARANGO_NO_AUTH=1 -p 8529:8529 arangodb:latest",
+    "unmount-db": "docker stop arango-up & docker rm arango-up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xploratics/arango-up.git"
+  },
+  "keywords": [
+    "arango",
+    "arangodb",
+    "db",
+    "update",
+    "updater",
+    "upgrade"
+  ],
+  "author": "Dany Laporte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xploratics/arango-up/issues"
+  },
+  "homepage": "https://github.com/xploratics/arango-up#readme",
+  "devDependencies": {
+    "arangojs": "^5.0.3",
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "arango-lock": "^0.2.0",
+    "arango-util": "^0.1.2",
+    "db-up": "^0.1.1",
+    "debug": "^2.2.0"
+  }
+}
