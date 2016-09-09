@@ -32,7 +32,7 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "arango-lock": "^0.2.0",
+    "arango-lock": "^0.2.1",
     "arango-util": "^0.1.2",
     "db-up": "^0.1.1",
     "debug": "^2.2.0"
