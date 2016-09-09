@@ -7,7 +7,12 @@ describe('update', function () {
     it('should not returns errors', function () {
         return util
             .ensureDatabaseExists({ server, name: 'db' })
-            .then(_ => up.update({ server, data: { server }, path: './test/patches' }));
+            .then(_ => up.update({ server, data: { server }, path: './test/patches' }))
+            .then(function (e) {
+                expect(e.originVersion).to.equal(0);
+                expect(e.newVersion).to.equal(2);
+                expect(e.updated).to.be.true;
+            });
     });
 
     it('should update database', function () {
@@ -20,5 +25,15 @@ describe('update', function () {
         return server
             .collection('arangoUp').document('master')
             .then(d => expect(d.version).to.equal(2));
+    });
+
+    it('should not returns errors when db is already updated', function () {
+        return up
+            .update({ server, data: { server }, path: './test/patches' })
+            .then(function (e) {
+                expect(e.originVersion).to.equal(2);
+                expect(e.newVersion).to.equal(2);
+                expect(e.updated).to.be.false;
+            });
     });
 });

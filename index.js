@@ -52,7 +52,7 @@ exports.update = function (options) {
                 if (newVersion === originVersion) {
                     debug('already up to date.');
                     release();
-                    return Promise.resolve(newVersion);
+                    return Promise.resolve({ originVersion, newVersion, updated: false });
                 }
 
                 debug(`updated from version ${originVersion} to ${newVersion}.`);
@@ -62,7 +62,7 @@ exports.update = function (options) {
                     .then(function () {
                         debug('version persisted to database.');
                         release();
-                        return newVersion;
+                        return { originVersion, newVersion, updated: true };
                     });
             }
         });
