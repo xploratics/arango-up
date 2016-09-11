@@ -1,6 +1,6 @@
 {
   "name": "arango-up",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "This component allow to migrate an arango database (schema / data) from a version to the most recent version",
   "main": "index.js",
   "scripts": {
@@ -32,8 +32,8 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "arango-lock": "^0.2.1",
-    "arango-util": "^0.1.2",
+    "arango-lock": "^0.3.0",
+    "arango-util": "^0.2.0",
     "db-up": "^0.1.1",
     "debug": "^2.2.0"
   }

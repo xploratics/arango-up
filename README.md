@@ -9,13 +9,11 @@ Using javascript files in a folder, will find those files and execute them in se
 ## Usage
 
 ```js
-var server = require('arangojs')({ url: 'http://root@127.0.0.1:8529' });
+var database = require('arangojs')({ url: 'http://root@127.0.0.1:8529' }).useDatabase('db');
 var updater = require('arango-up');
 
-server.useDatabase('db');
-
 updater
-    .update({ path: './patches', server, data: { server } })
+    .update({ path: './patches', database, data: { server } })
     .then(function () {
         console.log('update completed.');
     });
@@ -55,15 +53,15 @@ Optionnal data that can be passed to the patches.
 Usefull for passing the arango object.
 - path:
 The path to the folder containing the patches. Default is `./patches`
-- server:
+- database:
 An arangojs database object.
 
 ## Example of a patch file.
 
 Name the file as 1.js and put it in the `./patches` folder.
 ```js
-module.exports = function (data) {
-    return data.server.createCollections('users');
+module.exports = function (e) {
+    return e.database.collection('users').create();
 }
 ```
 

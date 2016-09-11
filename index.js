@@ -6,23 +6,23 @@ var up = require('db-up');
 var util = require('arango-util');
 
 exports.update = function (options) {
-    if (!options) options = {};
+    assert.ok(options, 'options should be provided.');
 
-    var server = options.server;
+    var database = options.database;
     var key = options.name || 'master';
     var path = options.path;
 
-    assert.ok(server, 'server should be an arangodb database object');
+    assert.ok(database, 'database should be an arangodb database object');
 
     return lock
-        .acquire({ name: 'arango-up:' + key, server })
+        .acquire({ name: 'arango-up:' + key, database })
         .then(function (release) {
             var newVersion;
             var originVersion;
-            var collection = server.collection('arangoUp');
+            var collection = database.collection('arangoUp');
 
             return util
-                .ensureCollectionExists({ server, name: collection.name })
+                .ensureCollectionExists(collection)
                 .then(_ => util.getByKey({ collection, key }))
                 .then(applyUpdates)
                 .then(saveNewVersion, handleErrorAndSave);
@@ -57,7 +57,7 @@ exports.update = function (options) {
 
                 debug(`updated from version ${originVersion} to ${newVersion}.`);
 
-                return server
+                return database
                     .transaction({ write: 'arangoUp' }, dbFuncString, { key, version: newVersion, date: new Date() })
                     .then(function () {
                         debug('version persisted to database.');
