@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
-var database = require('arangojs')({ url: 'http://root@127.0.0.1:8529' }).useDatabase('db');
+var database = require('arangojs')({
+    url: 'http://127.0.0.1:8529'
+}).useDatabase('db').useBasicAuth('root', '');
 var up = require('../');
 var util = require('arango-util');
 
@@ -7,7 +9,13 @@ describe('update', function () {
     it('should not returns errors', function () {
         return util
             .ensureDatabaseExists(database)
-            .then(_ => up.update({ database, data: { database }, path: './test/patches' }))
+            .then(_ => up.update({
+                database,
+                data: {
+                    database
+                },
+                path: './test/patches'
+            }))
             .then(function (e) {
                 expect(e.originVersion).to.equal(0);
                 expect(e.newVersion).to.equal(2);
@@ -29,7 +37,13 @@ describe('update', function () {
 
     it('should not returns errors when db is already updated', function () {
         return up
-            .update({ database, data: { database }, path: './test/patches' })
+            .update({
+                database,
+                data: {
+                    database
+                },
+                path: './test/patches'
+            })
             .then(function (e) {
                 expect(e.originVersion).to.equal(2);
                 expect(e.newVersion).to.equal(2);
